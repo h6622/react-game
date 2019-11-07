@@ -52,6 +52,10 @@
 
         input;
 
+        onRefInput = c => {
+          this.input = c;
+        };
+
         render() {
           return (
             <React.Fragment>
@@ -60,9 +64,7 @@
               </div>
               <form onSubmit={this.onSubmit}>
                 <input
-                  ref={c => {
-                    this.input = c;
-                  }}
+                  ref={this.onRefInput}
                   type="number"
                   value={this.state.value}
                   onChange={this.onChange}
