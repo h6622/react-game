@@ -13,12 +13,11 @@
       crossorigin
       src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"
     ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   </head>
   <body>
     <div id="root"></div>
-    <script>
-      const e = React.createElement;
-
+    <script type="text/babel">
       class LikeButton extends React.Component {
         constructor(props) {
           super(props);
@@ -28,25 +27,33 @@
         }
 
         render() {
-          return e(
-            "button",
-            {
-              onClick: () => {
+          return (
+            <button
+              type="submit"
+              onClick={() => {
                 if (this.state.liked === true) {
                   this.setState({ liked: false });
                 } else {
                   this.setState({ liked: true });
                 }
-              },
-              type: "submit"
-            },
-            this.state.liked === true ? "Liked" : "Like"
+              }}
+            >
+              {this.state.liked ? "Liked" : "Like"}
+            </button>
           );
         }
       }
     </script>
-    <script>
-      ReactDOM.render(e(LikeButton), document.querySelector("#root"));
+    <script type="text/babel">
+      ReactDOM.render(
+        <>
+          <LikeButton />
+          <LikeButton />
+          <LikeButton />
+          <LikeButton />
+        </>,
+        document.querySelector("#root")
+      );
     </script>
   </body>
 </html>
