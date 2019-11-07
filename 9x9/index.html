@@ -19,16 +19,12 @@
     <div id="root"></div>
     <script type="text/babel">
       class MultiplicationTable extends React.Component {
-        constructor(props) {
-          super(props);
-          this.state = {
-            first: Math.ceil(Math.random() * 9),
-            second: Math.ceil(Math.random() * 9),
-            value: "",
-            result: "",
-            answer: ""
-          };
-        }
+        state = {
+          first: Math.ceil(Math.random() * 9),
+          second: Math.ceil(Math.random() * 9),
+          value: "",
+          result: ""
+        };
 
         onSubmit = e => {
           e.preventDefault();
@@ -36,17 +32,17 @@
             parseInt(this.state.value) ===
             this.state.first * this.state.second
           ) {
-            this.setState({
-              answer: "정답",
-              first: Math.ceil(Math.random() * 9),
-              second: Math.ceil(Math.random() * 9),
-              result: this.state.value,
-              value: ""
+            this.setState(prevState => {
+              return {
+                result: "정답: " + prevState.value,
+                first: Math.ceil(Math.random() * 9),
+                second: Math.ceil(Math.random() * 9),
+                value: ""
+              };
             });
           } else {
             this.setState({
-              answer: "땡",
-              result: this.state.value,
+              result: "땡",
               value: ""
             });
           }
@@ -54,24 +50,27 @@
 
         onChange = e => this.setState({ value: e.target.value });
 
+        input;
+
         render() {
           return (
-            <div>
+            <React.Fragment>
               <div>
                 {this.state.first} 곱하기 {this.state.second}는?
               </div>
               <form onSubmit={this.onSubmit}>
                 <input
+                  ref={c => {
+                    this.input = c;
+                  }}
                   type="number"
                   value={this.state.value}
                   onChange={this.onChange}
                 />
                 <button>입력!</button>
-                <div>
-                  {this.state.result} {this.state.answer}
-                </div>
+                <div>{this.state.result}</div>
               </form>
-            </div>
+            </React.Fragment>
           );
         }
       }
