@@ -19,13 +19,24 @@ module.exports = {
         test: /\.jsx$/,
         loader: "babel-loader",
         options: {
-          presets: ["@babel/preset-env", "@babel/preset-react"]
+          presets: [
+            [
+              "@babel/preset-env",
+              {
+                targets: {
+                  browsers: ["> 1% in KR"]
+                },
+                debug: true
+              }
+            ],
+            "@babel/preset-react"
+          ]
         }
       }
     ]
   },
 
-  plugins: [new webpack.LoaderOptionsPlugin({ debug: true })],
+  plugins: [],
 
   output: {
     path: path.join(__dirname, "dist"),
