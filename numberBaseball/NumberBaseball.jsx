@@ -19,7 +19,7 @@ const NumberBaseball = () => {
   const [tries, setTries] = useState([]);
 
   const onSubmitForm = e => {
-    e.perventDefault();
+    e.preventDefault();
     if (value === answer.join("")) {
       setTries(prevTries => [...prevTries, { try: value, result: "홈런!" }]);
       setResult("홈런!");
