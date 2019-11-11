@@ -58,6 +58,8 @@ const NumberBaseball = () => {
     setValue(e.target.value);
   };
 
+  inputRef = createRef();
+
   return (
     <>
       <h1>{result}</h1>

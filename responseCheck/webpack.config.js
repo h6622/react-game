@@ -1,17 +1,15 @@
 const path = require("path");
 
 module.exports = {
-  name: "Word Relay",
+  name: "Response Check",
   mode: "development",
   devtool: "eval",
   resolve: {
     extensions: [".jsx", ".js"]
   },
-
   entry: {
     app: "./client"
   },
-
   module: {
     rules: [
       {
@@ -30,14 +28,15 @@ module.exports = {
             ],
             "@babel/preset-react"
           ],
-          plugins: ["react-hot-loader/babel"]
+          plugins: [
+            "react-hot-loader/babel",
+            "@babel/plugin-proposal-class-properties"
+          ]
         }
       }
     ]
   },
-
   plugins: [],
-
   output: {
     path: path.join(__dirname, "dist"),
     filename: "app.js",
