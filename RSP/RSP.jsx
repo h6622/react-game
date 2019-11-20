@@ -40,7 +40,7 @@ class RSP extends Component {
     }
   };
 
-  onClickBtn = choice => {
+  onClickBtn = choice => () => {
     const { rsp } = this.state;
     clearInterval(this.interval);
     const myScore = scores[choice];
@@ -79,25 +79,17 @@ class RSP extends Component {
       <>
         <h1>{rsp}</h1>
         <div>
-          <button
-            id="rock"
-            className="btn"
-            onClick={() => this.onClickBtn("rock")}
-          >
+          <button id="rock" className="btn" onClick={this.onClickBtn("rock")}>
             Rock
           </button>
           <button
             id="scissors"
             className="btn"
-            onClick={() => this.onClickBtn("scissors")}
+            onClick={this.onClickBtn("scissors")}
           >
             Scissor
           </button>
-          <button
-            id="paper"
-            className="btn"
-            onClick={() => this.onClickBtn("paper")}
-          >
+          <button id="paper" className="btn" onClick={this.onClickBtn("paper")}>
             Paper
           </button>
         </div>
