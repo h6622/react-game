@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-  name: "Response Check",
+  name: "Lotto",
   mode: "development",
   devtool: "eval",
   resolve: {
