@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useCallback } from "react";
 import { createGlobalStyle } from "styled-components";
 
 import Table from "./components/Table";
@@ -8,9 +8,9 @@ const GlobalStyle = createGlobalStyle`
     border-collapse: collapse;
   }
   td {
-    border: 1px solid black;
-    width: 40px;
-    height: 40px;
+    border: 3px solid black;
+    width: 120px;
+    height: 120px;
     text-align: center;
   }
 `;
@@ -25,18 +25,30 @@ const initialState = {
   ]
 };
 
-const reducer = (state, action) => {
+const SET_WINNER = "SET_WINNER";
 
-}
+const reducer = (state, action) => {
+  switch (action.type) {
+    case SET_WINNER:
+      return {
+        ...state,
+        winner: action.winner
+      };
+  }
+};
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  const onClickTable = useCallback(() => {
+    dispatch({ type: SET_WINNER, winner: "O" });
+  }, []);
+
   return (
     <>
       <GlobalStyle />
-      <Table />
-      {winner && <div>{winner}님의 승리 !</div>}
+      <Table onClick={onClickTable} tableData={state.tableData} />
+      {state.winner && <div>{state.winner}님의 승리 !</div>}
     </>
   );
 };
