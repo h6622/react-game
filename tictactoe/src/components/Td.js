@@ -1,13 +1,15 @@
 import React, { useCallback } from "react";
 
-import { CLICK_CELL, CHANGE_TURN } from "../App";
+import { CLICK_CELL } from "../App";
 
 const Td = ({ rowIndex, cellIndex, cellData, dispatch }) => {
   const onClickTd = useCallback(() => {
     console.log(rowIndex, cellIndex);
+    if (cellData) {
+      return;
+    }
     dispatch({ type: CLICK_CELL, row: rowIndex, cell: cellIndex });
-    dispatch({ type: CHANGE_TURN });
-  }, []);
+  }, [cellData]);
 
   return (
     <>

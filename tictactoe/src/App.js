@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useCallback } from "react";
+import React, { useEffect, useReducer, useCallback } from "react";
 import { createGlobalStyle } from "styled-components";
 
 import Table from "./components/Table";
@@ -13,7 +13,7 @@ const GlobalStyle = createGlobalStyle`
     height: 120px;
     text-align: center;
   }
-  #result{
+  table, #result{
     font-size: 3em;
   }
 `;
@@ -25,7 +25,8 @@ const initialState = {
     ["", "", ""],
     ["", "", ""],
     ["", "", ""]
-  ]
+  ],
+  recentCell: [-1, -1]
 };
 
 export const SET_WINNER = "SET_WINNER";
@@ -45,7 +46,8 @@ const reducer = (state, action) => {
       tableData[action.row][action.cell] = state.turn;
       return {
         ...state,
-        tableData
+        tableData,
+        recentCell: [action.row, action.cell]
       };
     case CHANGE_TURN: {
       return {
@@ -58,20 +60,58 @@ const reducer = (state, action) => {
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { tableData, turn, winner, recentCell } = state;
 
-  const onClickTable = useCallback(() => {
-    dispatch({ type: SET_WINNER, winner: "O" });
-  }, []);
+  // const onClickTable = useCallback(() => {
+  //   dispatch({ type: SET_WINNER, winner: turn });
+  // }, [turn]);
+
+  useEffect(() => {
+    const [row, cell] = recentCell;
+    if (row < 0) {
+      return;
+    }
+    let win = false;
+    if (
+      tableData[row][0] === turn &&
+      tableData[row][1] === turn &&
+      tableData[row][2] === turn
+    ) {
+      win = true;
+    }
+    if (
+      tableData[0][cell] === turn &&
+      tableData[1][cell] === turn &&
+      tableData[2][cell] === turn
+    ) {
+      win = true;
+    }
+    if (
+      tableData[0][0] === turn &&
+      tableData[1][1] === turn &&
+      tableData[2][2]
+    ) {
+      win = true;
+    }
+    if (
+      tableData[0][2] === turn &&
+      tableData[1][1] === turn &&
+      tableData[2][0]
+    ) {
+      win = true;
+    }
+    if (win) {
+      dispatch({ type: SET_WINNER, winner: turn });
+    } else {
+      dispatch({ type: CHANGE_TURN });
+    }
+  }, [recentCell]);
 
   return (
     <>
       <GlobalStyle />
-      <Table
-        onClick={onClickTable}
-        tableData={state.tableData}
-        dispatch={dispatch}
-      />
-      {state.winner && <div id="result">{state.winner}님의 승리 !</div>}
+      <Table tableData={tableData} dispatch={dispatch} />
+      {winner && <div id="result">{winner}님의 승리 !</div>}
     </>
   );
 };
